@@ -12,7 +12,12 @@ defmodule RepostsGenerator do
       :world
 
   """
-  def hello do
-    :world
+
+  def build(filename) do
+    case File.read("reports/#{filename}") do
+      {:ok, result} -> result
+      {:error, reason} -> reason
+      _ -> "Any case."
+    end
   end
 end
