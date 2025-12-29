@@ -1,17 +1,13 @@
 defmodule RepostsGenerator do
   def build(filename) do
-    """
-    case File.read("reports/#{filename}") do
-      {:ok, result} -> result
-      {:error, reason} -> reason
-      _ -> "Any case."
-    end
-    """
     "reports/#{filename}"
-    |> File.read()
-    |> handle_file()
+    |> File.stream!()
+    |> Enum.map(fn line -> parse_line(line) end)
   end
 
-  defp handle_file({:ok, file_content}), do: file_content
-  defp handle_file({:error, reason}), do: "Error while opening file: #{reason}"
+  defp parse_line(line) do
+    line
+    |> String.trim()
+    |> String.split(",")
+  end
 end
